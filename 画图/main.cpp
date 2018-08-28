@@ -4,6 +4,13 @@ int m,n,q;
 char a[105][105];
 bool used[105][105];
 void dfs(int x,int y,char c);
+void printa()   {
+    for (int i=n-1;i>=0;i--)   {
+        for (int j=0;j<m;j++)
+            cout<<a[i][j];
+        cout<<endl;
+    }
+}
 int main()  {
     ios::sync_with_stdio(false);
     cin.tie(0);
@@ -16,16 +23,20 @@ int main()  {
         cin>>t;
         if (t==0)   {
             cin>>y1>>x1>>y2>>x2;
+            if (x1>x2)  swap(x1,x2);
+            if (y1>y2)  swap(y1,y2);
             if (x1==x2)
                 for (int j=y1;j<=y2;j++)    {
-                    if (a[x1][j]=='|')
+                    if (a[x1][j]=='+')  continue;
+                    else if (a[x1][j]=='|')
                         a[x1][j]='+';
                     else
                         a[x1][j]='-';
                 }
             else if (y1==y2)
                 for (int i=x1;i<=x2;i++)    {
-                    if (a[i][y1]=='-')
+                    if (a[i][y1]=='+')  continue;
+                    else if (a[i][y1]=='-')
                         a[i][y1]='+';
                     else
                         a[i][y1]='|';
@@ -38,7 +49,7 @@ int main()  {
             for (int i=0;i<n;i++)   {
                 for (int j=0;j<m;j++)   {
                     bool b1=(i==x-1&&j==y);
-                    bool b2=(i=x&&j==y);
+                    bool b2=(i==x&&j==y);
                     bool b3=(i==x+1&&j==y);
                     bool b4=(i==x&&j==y-1);
                     bool b5=(i==x&&j==y+1);
@@ -48,13 +59,16 @@ int main()  {
                     if (!used[i][j])    dfs(i,j,c);
                 }
             }
+            memset(used,0,sizeof(used));
         }
     }
+    printa();
     return 0;
 }
 
 void dfs(int x,int y,char c)    {
     used[x][y]=true;
+    a[x][y]=c;
     for (int i=-1;i<=1;i++) {
         if (x+i<0||x+i>=n||used[x+i][y])    continue;
         if (a[x+i][y]=='|'||a[x+i][y]=='-'||a[x+i][y]=='+') continue;
