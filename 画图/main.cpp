@@ -82,9 +82,3 @@ void dfs(int x,int y,char c)    {
         dfs(x,y+j,c);
     }
 }
-
-
-
-
-
-
