@@ -13,9 +13,9 @@ int main()  {
         }
     }
     for (int i=0;i<m;i++)   {
-        cout<<a[i][0];
+        cout<<b[i][0];
         for (int j=1;j<n;j++)
-            cout<<' '<<a[i][j];
+            cout<<' '<<b[i][j];
         cout<<endl;
     }
     return 0;
