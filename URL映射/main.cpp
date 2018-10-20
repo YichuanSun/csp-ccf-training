@@ -3,10 +3,11 @@
 using namespace std;
 string lim[N],lims[N][N],limname[N];    //lim是第i个规则字符串，lims是第i个规则字符串的拆分，limname是对应字符串的名字
 string now,nows[N];                     //nows是当前被检索字符串的拆分
-bool isop[N],iso[N];                    //isop判断规则末尾有无斜杠，iso判断地址末尾有无斜杠
+bool isop[N],iso;                    //isop判断规则末尾有无斜杠，iso判断地址末尾有无斜杠
 int limcnt[N],nowcnt;                   //limcnt计数规则的拆分后项数，nowcnt计数当前被检索字符串的拆分后项数
 void stcut(string ori,string cut[],bool& is,int&num);
 bool match(int j,int nc,string& a);
+string isnum(string s);
 int main()  {
     int n,m;
     cin>>n>>m;
@@ -15,8 +16,8 @@ int main()  {
         stcut(lim[i],lims[i],isop[i],limcnt[i]);
     }
     for (int i=0;i<m;i++)   {
-        cin>>now;
-        stcut(now,nows,iso[i],nowcnt);
+        cin>>now;iso=0;             //注意此处将iso置0
+        stcut(now,nows,iso,nowcnt);
         string ans;
         int f=0;
         for (int j=0;j<n;j++)   {
@@ -32,7 +33,7 @@ int main()  {
 }
 
 //nows是当前字符串，j是当前的判定模块序号，nc是当前字符串切分后的项数，a是可能的跟在标签后面的答案字符串
-bool match(int j,int nc,string& a){
+bool match(int j,int nc,string& a)  {
     a="";
     int p1=0,p2=0;
     while (p1<nc&&p2<limcnt[j]) {
@@ -43,11 +44,17 @@ bool match(int j,int nc,string& a){
             else    a+=' '+st;
         }
         else if (lims[j][p2]=="<path>") {
-            while (p1<nc)   a+=' '+nows[p1];
+            a+=' '+nows[p1++];
+            while (p1<nc)   a+='/'+nows[p1++];
+            if (iso)    a+='/';
+            return 1;
         }
+        else if (lims[j][p2]=="<str>")  a+=' '+nows[p1];
+        else return 0;
         p1++,p2++;
     }
     if (p1<nc||p2<limcnt[j])    return 0;
+    if (isop[j]^iso)    return 0;
     return 1;
 }
 
@@ -57,7 +64,7 @@ void stcut(string ori,string cut[],bool& is,int& num){
     string ss;
     num=0;
     if (ori[len-1]=='/')    is=1;
-    for (int i=0;i<ori.size();i++)
+    for (int i=0;i<(int)ori.size();i++)
         if (ori[i]=='/')    ori[i]=' ';
     stringstream in(ori);
     while (in>>ss)    cut[num++]=ss;;
@@ -72,9 +79,3 @@ string isnum(string s)  {
     }
     return ans;
 }
-
-
-
-
-
-
