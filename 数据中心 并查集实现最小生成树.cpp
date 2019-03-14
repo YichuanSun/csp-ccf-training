@@ -58,7 +58,7 @@ int Find(int a)   {
 
 void unite(int a,int b) {
     a=Find(a);
-    b=Find(b);              //原先我这里没有对a和b的赋值，直接写了个判断 if Find(a)==Find(b),找bug找了半天
+    b=Find(b);              //原先WA是因为我这里没有对a和b的赋值，直接写了个判断 if Find(a)==Find(b),找bug找了半天
     if (a==b)   return;     //一定注意这个地方啊
     if (h[a]<h[b])  par[a]=b;
     else {
