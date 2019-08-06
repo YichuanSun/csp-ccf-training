@@ -7,18 +7,19 @@ int main()  {
     int cycle=r+y+g;
     for (int i=0;i<n;i++)   {
         scanf("%d%d",&k,&t);
-        int nowk=(tim+t)%cycle;
-        cout<<"This time \t"<<i<<' '<<nowk<<endl;
-        cout<<"and nowk=\t"<<cal(nowk)<<endl;
-        cout<<"and tim=\t"<<tim<<endl;
-        tim+=cal(nowk);
+        int nowk;
+//        cout<<"This time \t"<<i<<' '<<nowk<<endl;
+//        cout<<"and nowk=\t"<<cal(nowk)<<endl;
+//        cout<<"and tim=\t"<<tim<<endl;
+        if (k==0)   tim+=t;
+        else if (k==1)  nowk=r;
+        else if (k==2)  nowk=r+g+t;
+        else nowk=r+t;
+        nowk%=cycle;
+        if (nowk>=0&&nowk<r)    tim+=r-nowk;
+        else if (nowk>=r&&nowk<r+g) ;
+        else tim+=r+g+y-nowk+r;
     }
     printf("%d\n",tim);
     return 0;
-}
-
-int cal(int a)  {
-    if (a>=0&&a<r)  return r-a;
-    else if (a>=r&&a<r+g)   return 0;
-    else    return r+g+y-a+r;
 }
